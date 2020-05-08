@@ -1,30 +1,33 @@
 export const command =
-  "/usr/local/bin/icalbuddy -ea -li 1 -nc -b '' -ps '|,@|' eventsNow";
+  "/usr/local/bin/icalbuddy -ea -nc -iep 'datetime, title' -b '' -ps '|,|' eventsNow || icalBuddy -n -li 1 -ea -nc -iep 'datetime, title' -b '' -ps '|,|' eventsToday";
 
 const minutes = (min) => min * 60 * 1000;
 
-export const refreshFrequency = minutes(30);
+export const refreshFrequency = minutes(5);
 
 const convertIcalOutputToJson = (icalOutput) => {
-  const icalSplitedVector = icalOutput.split(",@");
-
-  return {
-    name: icalSplitedVector[0],
-    duration: icalSplitedVector[icalSplitedVector.length - 1],
-  };
+  return (
+    icalOutput
+      .trim()
+      .split("\n")
+      .map((e) => e.split(",")) || [
+      ["Calendar", "🤔 No Scheduled events today"],
+    ]
+  );
 };
 
 export const render = ({ output }) => {
-  const event = convertIcalOutputToJson(output);
+  const events = convertIcalOutputToJson(output).reverse();
 
   return (
     <div>
-      <div className="background"></div>
       <div className="container">
         <div id="vertical-event-calendar-color"></div>
         <div class="text-container">
-          <div id="event-duration">{event.duration}</div>
-          <div id="event-name">{event.name}</div>
+          <div id="event-name">{events[0][1]}</div>
+          {events.map((ev) => (
+            <div id="event-duration">{ev[0]}</div>
+          ))}
         </div>
       </div>
     </div>
@@ -33,18 +36,9 @@ export const render = ({ output }) => {
 
 export const className = `
   left: 10px;
-  top: 60px;
+  top: 50px;
   font-family: "SF Pro Display";
   color: #fff;
-
-  .background {
-    filter: blur(4px);
-    background-color: rgba(0,0,0,0.2);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index:-1;
-  }
 
   .container {
     backdrop-filter: blur(0.8);
@@ -54,6 +48,7 @@ export const className = `
 
   .text-container {
     font-weight: 500;
+    text-shadow: 0 0 20px black;
   }
 
   #vertical-event-calendar-color {
