@@ -1,9 +1,9 @@
 export const command =
-  "/usr/local/bin/icalbuddy -ea -nc -iep 'datetime, title' -b '' -ps '|,|' eventsNow || icalBuddy -n -li 1 -ea -nc -iep 'datetime, title' -b '' -ps '|,|' eventsToday";
+  "/usr/local/bin/icalBuddy -n -li 1 -ea -nc -iep 'datetime, title' -b '' -ps '|,|' eventsToday";
 
 const minutes = (min) => min * 60 * 1000;
 
-export const refreshFrequency = minutes(5);
+export const refreshFrequency = minutes(1);
 
 const convertIcalOutputToJson = (icalOutput) => {
   return (
