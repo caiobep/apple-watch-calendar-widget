@@ -10,9 +10,7 @@ const convertIcalOutputToJson = (icalOutput) => {
     icalOutput
       .trim()
       .split("\n")
-      .map((e) => e.split(",")) || [
-      ["Calendar", "🤔 No Scheduled events today"],
-    ]
+      .map((e) => e.split(",")) || [["Calendar", "No more events today!"]]
   );
 };
 
@@ -24,9 +22,9 @@ export const render = ({ output }) => {
       <div className="container">
         <div id="vertical-event-calendar-color"></div>
         <div class="text-container">
-          <div id="event-name">{events[0][1]}</div>
+          <div id="event-name">{events[0][1] || "Calendar"}</div>
           {events.map((ev) => (
-            <div id="event-duration">{ev[0]}</div>
+            <div id="event-duration">{ev[0] || "No more events today!"}</div>
           ))}
         </div>
       </div>
