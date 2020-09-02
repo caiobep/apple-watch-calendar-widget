@@ -1,0 +1,14 @@
+{
+  "presets": ["@babel/typescript"],
+  "plugins": [
+    "@babel/plugin-syntax-jsx",
+    "@babel/plugin-transform-typescript",
+    [
+      "babel-plugin-transform-remove-imports",
+      {
+        "test": "react"
+      }
+    ]
+  ],
+  "ignore": ["**/*.test.tsx"]
+}
