@@ -1,12 +1,14 @@
 import React from "react";
-import { render } from "@testing-library/react";
-
-const Component = () => <div>batata</div>;
+import { render } "@testing-library/react"
+import { render as Component } from './apple-watch-calendar'
 
 describe("Apple Watch Calendar", () => {
-  it("Passes the test", () => {
-    const { getByText } = render(<Component />);
+  it("Displays event names", () => {
+        const mockCommandResult = `Work on Apple Watch Calendar Widget For macOS,16:00 - 17:00`;
 
-    expect(getByText(/batata/gi)).toBeVisible();
+    const { getByText } = render(<Component output={mockCommandResult} />);
+
+    expect(getByText(/work on apple watch calendar widget for macOS/gi)).toBeVisible()
+    expect(getByText(/16:00 - 17:00/gi)).toBeVisible()
   });
 });

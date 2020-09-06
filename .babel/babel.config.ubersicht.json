@@ -10,5 +10,5 @@
       }
     ]
   ],
-  "ignore": ["**/*.test.tsx"]
+  "ignore": ["src/**/*.test.*", "build"]
 }
