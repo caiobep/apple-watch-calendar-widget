@@ -1,0 +1,16 @@
+
+{
+  "testEnvironment": "jest-environment-jsdom",
+  "automock": true,
+  "clearMocks": true,
+  "coverageDirectory": "coverage",
+  "coveragePathIgnorePatterns": ["/node_modules/"],
+  "coverageReporters": ["json", "text", "lcov", "clover"],
+  "watchman": true,
+  "transform": {
+    "\\/src\\/.+\\.[t|j]sx?$": [
+      "babel-jest",
+      { "configFile": "./.babel/babel.config.jest.json" }
+    ]
+  }
+}

@@ -4,12 +4,15 @@
   "description": "An [Übersicht](http://tracesof.net/uebersicht/) widget simulating the apple watch calendar watchface",
   "scripts": {
     "start": "npm run build:watch",
+    "postinstall": "npm run build",
     "build": "npm-run-all build:type-check build:babel",
     "build:watch": "npm-run-all build:babel:watch build:type-check:watch",
     "build:type-check": "tsc --noEmit",
     "build:type-check:watch": "npm run build:type-check -- --watch",
     "build:babel": "babel --config-file ./.babel/babel.config.ubersicht.json src --out-dir build --extensions \".ts,.tsx\" --out-file-extension '.jsx' --ignore **/*.test.* ",
     "build:babel:watch": "npm run build:babel --watch",
+    "lint": "eslint ./src --cache --ext .ts,.tsx ",
+    "lint:fix": "npm run lint -- --fix",
     "test:watch": "jest -c ./test/jest.config.json --watchAll",
     "test": "jest"
   },
@@ -43,12 +46,14 @@
     "babel-core": "~7.0.0-bridge.0",
     "babel-jest": "~26.0.1",
     "babel-plugin-transform-remove-imports": "~1.4.1",
-    "eslint": "~7.8.1",
+    "eslint": "~7.0.0",
+    "eslint-config-prettier": "~6.11.0",
     "eslint-config-standard": "~14.1.1",
     "eslint-plugin-import": "~2.22.0",
+    "eslint-plugin-jest": "~24.0.0",
     "eslint-plugin-jest-dom": "~3.2.2",
     "eslint-plugin-node": "~11.1.0",
-    "eslint-plugin-prettier": "~3.1.3",
+    "eslint-plugin-prettier": "~3.1.4",
     "eslint-plugin-promise": "~4.2.1",
     "eslint-plugin-react": "~7.20.6",
     "eslint-plugin-standard": "~4.0.1",
@@ -60,6 +65,7 @@
     "prettier": "~2.0.5",
     "react": "~16.13.1",
     "react-dom": "~16.13.1",
-    "semantic-release": "~17.0.7"
+    "semantic-release": "~17.0.7",
+    "typescript": "~4.0.2"
   }
 }
