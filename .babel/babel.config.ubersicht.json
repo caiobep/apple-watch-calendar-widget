@@ -1,6 +1,7 @@
 {
   "presets": ["@babel/typescript"],
   "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-syntax-jsx",
     "@babel/plugin-transform-typescript",
     [

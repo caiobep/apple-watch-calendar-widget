@@ -6,15 +6,17 @@
     "start": "npm run build:watch",
     "postinstall": "npm run build",
     "build": "npm-run-all build:type-check build:babel",
-    "build:watch": "npm-run-all build:babel:watch build:type-check:watch",
+    "build:watch": "npm run build:babel:watch",
     "build:type-check": "tsc --noEmit",
     "build:type-check:watch": "npm run build:type-check -- --watch",
     "build:babel": "babel --config-file ./.babel/babel.config.ubersicht.json src --out-dir build --extensions \".ts,.tsx\" --out-file-extension '.jsx' --ignore **/*.test.* ",
     "build:babel:watch": "npm run build:babel --watch",
     "lint": "eslint ./src --cache --ext .ts,.tsx ",
     "lint:fix": "npm run lint -- --fix",
-    "test:watch": "jest -c ./test/jest.config.json --watchAll",
-    "test": "jest"
+    "test": "jest --passWithNoTests",
+    "test:watch": "npm test -- --watch",
+    "test:staged": "npm test -- --findRelatedTests",
+    "test:ci": "npm test -- --coverage "
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,7 @@
   "devDependencies": {
     "@babel/cli": "~7.11.5",
     "@babel/core": "~7.11.5",
+    "@babel/plugin-proposal-optional-chaining": "~7.11.0",
     "@babel/plugin-syntax-jsx": "~7.10.4",
     "@babel/plugin-transform-typescript": "~7.11.0",
     "@babel/preset-env": "~7.11.5",
@@ -46,6 +49,7 @@
     "babel-core": "~7.0.0-bridge.0",
     "babel-jest": "~26.0.1",
     "babel-plugin-transform-remove-imports": "~1.4.1",
+    "commitlint": "~9.1.2",
     "eslint": "~7.0.0",
     "eslint-config-prettier": "~6.11.0",
     "eslint-config-standard": "~14.1.1",
@@ -61,11 +65,20 @@
     "husky": "~4.2.5",
     "jest": "~26.0.1",
     "jest-environment-jsdom-fourteen": "~1.0.1",
+    "jest-watch-typeahead": "~0.6.1",
     "npm-run-all": "~4.1.5",
     "prettier": "~2.0.5",
     "react": "~16.13.1",
     "react-dom": "~16.13.1",
+    "react-test-renderer": "~16.13.1",
     "semantic-release": "~17.0.7",
     "typescript": "~4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E  HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test:ci"
+    }
   }
 }
