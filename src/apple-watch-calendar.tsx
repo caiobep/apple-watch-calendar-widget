@@ -1,6 +1,7 @@
 import React from 'react'
 
-export const command = '/usr/local/bin/icalbuddy -ea -nc -n -iep \'datetime, title\' -b \'\' -ps \'|,|\' eventsToday'
+export const command =
+  "/usr/local/bin/icalbuddy -ea -nc -n -iep 'datetime, title' -b '' -ps '|,|' eventsToday"
 
 const minutes = (min: number) => min * 60 * 1000
 
@@ -14,42 +15,65 @@ interface Event {
   duration: number
 }
 
-const convertiCalOutputToJson = (iCalOutput: string): Event[] => {
-  return iCalOutput
-    .trim()
-    .split('\n')
-    .slice(0, 3)
-    .map((eventText) => {
-      const [name, time] = eventText.split(',')
-      const [startTime, endTime] = time.split('-')
+const convertTimeStringToDate = (time: string): Date => {
+  const [hour, seconds] = time.split(':')
+  const date = new Date()
+  date.setHours(Number(hour))
+  date.setSeconds(Number(seconds))
 
-      const duration =
-        Number(endTime.replace(':', '')) - Number(startTime.replace(':', '')) ||
-        0
+  return date
+}
 
-      return {
-        id: `${eventText}`,
-        name,
-        startTime,
-        endTime,
-        duration
-      }
-    })
+const getMinutesDifferenceBetweenDates = (
+  endDate: Date,
+  startDate: Date
+): number => {
+  const secondsDifference = (endDate.getTime() - startDate.getTime()) / 1000
+  return secondsDifference / 60
+}
+
+const convertiCalOutputToJson = (iCalOutput: string): Event[] | null => {
+  if (iCalOutput?.length > 2) {
+    return iCalOutput
+      .trim()
+      .split('\n')
+      .slice(0, 3)
+      .map((eventText) => {
+        const [name, time] = eventText.split(',')
+        const [startTime, endTime] = time.split('-')
+
+        const duration =
+          getMinutesDifferenceBetweenDates(
+            convertTimeStringToDate(endTime),
+            convertTimeStringToDate(startTime)
+          ) || 0
+
+        return {
+          id: `${eventText}`,
+          name,
+          startTime,
+          endTime,
+          duration
+        }
+      })
+  }
+
+  return null
 }
 
 const isEventSmallerThanHours = (hours: number) => (event: Event) =>
-  !(event.duration > 0 && event.duration < hours)
+  event.duration < hours * 60
 
 export const render = ({ output }: { output: string }): JSX.Element => {
-  const events = convertiCalOutputToJson(output).filter(
+  const events = convertiCalOutputToJson(output)?.filter(
     isEventSmallerThanHours(4)
   )
 
-  if (events.length < 1) {
+  if (!events || events?.length < 1) {
     return <div />
   }
 
-  const firstEvent = events[0]
+  const firstEvent = events[0] as Event
 
   return (
     <div className="container">
