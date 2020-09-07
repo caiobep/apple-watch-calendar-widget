@@ -13,11 +13,12 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
+  "include": ["src", "src/**.tsx"],
   "exclude": [
     "src/**/*.test.tsx",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "test/*"
   ]
+
 }

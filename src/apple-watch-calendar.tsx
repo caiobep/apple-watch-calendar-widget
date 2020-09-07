@@ -70,7 +70,7 @@ export const render = ({ output }: { output: string }): JSX.Element => {
   )
 
   if (!events || events?.length < 1) {
-    return <div />
+    return <div data-testid="no-command-result" />
   }
 
   const firstEvent = events[0] as Event

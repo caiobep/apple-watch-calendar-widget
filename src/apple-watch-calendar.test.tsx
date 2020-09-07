@@ -33,7 +33,15 @@ describe('Apple Watch Calendar', () => {
     expect(getByText(/Save the World/gi)).toBeVisible()
   })
 
-  it('Hides events biger than 4 hours', () => {
+  it('Displays a empty div when theres no command result', () => {
+    const mockCommandResult = ''
+
+    const { getByTestId } = render(<Component output={mockCommandResult} />)
+
+    expect(getByTestId(/no-command-result/gi)).toBeVisible()
+  })
+
+  it('Hides events longer than 4 hours', () => {
     const mockCommandResult = `
       Publish Apple Watch Calendar Widget For macOS, 16:00 - 17:00
       Work, 10:00 - 20:00`
@@ -49,5 +57,18 @@ describe('Apple Watch Calendar', () => {
 
     expect(queryByText(/Work/giy)).toBeNull()
     expect(queryByText(/10:00 - 20:00/gi)).toBeNull()
+  })
+
+  it('Displays events when it can\'t parse the duration', () => {
+    const mockCommandResult = 'Publish Apple Watch Calendar Widget For macOS, .... - 17:00'
+
+    const { getByText } = render(
+      <Component output={mockCommandResult} />
+    )
+
+    expect(
+      getByText(/publish apple watch calendar widget for macOS/gi)
+    ).toBeVisible()
+    expect(getByText(/... - 17:00/gi)).toBeVisible()
   })
 })
