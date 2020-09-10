@@ -1,6 +1,6 @@
 # Apple Watch Calendar for Übersicht
 
-![build status](https://travis-ci.com/caiobep/apple-watch-calendar.svg?token=egZ6yx3NTs6zikGZoPor&branch=main)
+[![Build Status](https://travis-ci.org/caiobep/apple-watch-calendar-widget.svg?branch=main)](https://travis-ci.org/caiobep/apple-watch-calendar-widget)
 
 > A widget inspired by apple's calendar watchface widget for [Übersicht](http://tracesof.net/uebersicht/)
 
