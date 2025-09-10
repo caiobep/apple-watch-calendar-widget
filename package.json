@@ -84,6 +84,6 @@
   },
   "dependencies": {
     "babel-preset-react-app": "~9.1.2",
-    "react-scripts": "~3.4.3"
+    "react-scripts": "~5.0.1"
   }
 }
